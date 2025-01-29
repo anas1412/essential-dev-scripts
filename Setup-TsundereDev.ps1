@@ -38,6 +38,16 @@ try {
         throw "H-Hey! No scripts found in the bin folder! Did you break the repository?`n"  
     }  
 
+    # Ask for confirmation before installing scripts  
+    Write-Host "I found these scripts in the bin folder... Not like I was looking for you or anything!`n" -ForegroundColor Yellow  
+    $scripts | ForEach-Object { Write-Host "  • $($_.Name)" -ForegroundColor Cyan }  
+
+    $confirmInstall = Read-Host "`nDo you want to install these scripts? (yes/no)"  
+    if ($confirmInstall -ne "yes") {  
+        Write-Host "Fine! I won't install them... It's not like I wanted to help you anyway!`n" -ForegroundColor Magenta  
+        exit  
+    }  
+
     # Download all scripts  
     foreach ($script in $scripts) {  
         $outputPath = Join-Path $binPath $script.Name  
@@ -149,6 +159,20 @@ try {
         "  • $commandName - $commandDescription"
     }
 
+    # Git Aliases for Help Menu
+    $gitAliasesMenu = @"
+  • git st - Check Git status
+  • git cm - Commit with a message
+  • git co - Checkout a branch
+  • git br - List branches
+  • git df - Show differences
+  • git lg - Pretty Git log
+  • git new - Create a new branch
+  • git done - Delete a branch after merging
+  • git panic - Emergency commit and push
+  • git oops - Fix the last commit
+"@
+
     # Help Menu  
     Write-Host @"
 ╔══════════════════════════════════════════╗
@@ -156,6 +180,9 @@ try {
 ╚══════════════════════════════════════════╝
 (¬_¬) Available Commands:
 $($availableCommands -join "`n")
+
+(´• ω •`) Git Aliases:
+$gitAliasesMenu
 
 (´• ω •`) Notes:
   1. Always test in dev first!
