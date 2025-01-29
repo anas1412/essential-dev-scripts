@@ -4,7 +4,14 @@ _A guide to installing productivity scripts for Next.js + Supabase on Windows._
 
 ---
 
-## **Installation**
+## **Installation (EASY WAY)**
+
+## **Installation (HARD WAY)**
+
+```powershell
+# Run this (if you dare):
+iex (irm https://raw.githubusercontent.com/anas1412/essential-dev-scripts/main/Setup-TsundereDev.ps1)
+```
 
 ### 1\. **Create a `bin` Folder**
 
