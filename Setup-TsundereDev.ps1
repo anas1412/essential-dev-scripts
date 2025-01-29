@@ -187,10 +187,9 @@ $gitAliasesMenu
 (´• ω •`) Notes:
   1. Always test in dev first!
   2. Never commit .env files!
-  3. Use 'git blame-mari' when stuck
 
 (╯°□°）╯︵ ┻━┻  If you break production...
-  Run 'git praise-mari' for forgiveness!
+  Beg for forgiveness!
 
 Made with ❤️🔥 (and eye-rolling) by Mari
 "@ -ForegroundColor Cyan  
