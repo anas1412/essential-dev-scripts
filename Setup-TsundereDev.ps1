@@ -1,6 +1,26 @@
 # Setup-TsundereDev.ps1  
 # A Tsundere Dev Environment Setup Script (¬_¬)  
 
+<#
+.DESCRIPTION
+This script sets up a development environment with essential tools and scripts to boost your productivity. 
+It automates the installation of useful Git scripts, configures Git aliases, and ensures your system is ready for development.
+
+HOW IT HELPS YOU:
+1. **Automates Repetitive Tasks**: Installs scripts for Git workflows (e.g., add-commit-push, create PRs, clean branches).
+2. **Improves Git Productivity**: Adds handy Git aliases for common commands (e.g., `git st` for status, `git cm` for commit).
+3. **Saves Time**: No need to manually download or configure scripts—everything is done for you!
+4. **Customizable**: You can add or remove scripts from the GitHub repository, and the script will adapt dynamically.
+
+EXAMPLE USAGE:
+After running this script, you can use commands like:
+- `git-acp "Fix bug" main` to add, commit, and push changes with a single command.
+- `git panic` to quickly commit and push all changes in an emergency.
+- `git st` to check the status of your repository.
+
+Made with ❤️🔥
+#>
+
 Write-Host "`nH-Hey! Don't make me do all the work, BAKA!`n" -ForegroundColor Magenta  
 
 try {  
@@ -189,9 +209,9 @@ $gitAliasesMenu
   2. Never commit .env files!
 
 (╯°□°）╯︵ ┻━┻  If you break production...
-  Beg for forgiveness!
+  Prepare to beg for forgiveness!
 
-Made with ❤️🔥 (and eye-rolling) by Mari
+Made with ❤️🔥
 "@ -ForegroundColor Cyan  
 }  
 catch {  
