@@ -44,23 +44,28 @@ try {
     # Git Config Setup  
     $gitConfigPath = "$env:USERPROFILE\.gitconfig"  
 
-    # Get User Info  
-    do {  
-        $userName = Read-Host "Enter your FULL NAME (Don't make me ask again!)"  
-        if ([string]::IsNullOrWhiteSpace($userName)) {  
-            throw "H-Hey! I need a real name, BAKA!"  
-        }  
-    } while ([string]::IsNullOrWhiteSpace($userName))  
+    # Check if .gitconfig exists  
+    if (Test-Path $gitConfigPath) {  
+        Write-Host "`.gitconfig` already exists. Skipping user info...`n" -ForegroundColor Yellow  
+    }  
+    else {  
+        # Get User Info  
+        do {  
+            $userName = Read-Host "Enter your FULL NAME (Don't make me ask again!)"  
+            if ([string]::IsNullOrWhiteSpace($userName)) {  
+                throw "H-Hey! I need a real name, BAKA!"  
+            }  
+        } while ([string]::IsNullOrWhiteSpace($userName))  
 
-    do {  
-        $userEmail = Read-Host "Enter your EMAIL (This better be valid!)"  
-        if (-not ($userEmail -match '^[^@]+@[^@]+\.[^@]+$')) {  
-            throw "T-That's not a real email! Try again!"  
-        }  
-    } until ($userEmail -match '^[^@]+@[^@]+\.[^@]+$')  
+        do {  
+            $userEmail = Read-Host "Enter your EMAIL (This better be valid!)"  
+            if (-not ($userEmail -match '^[^@]+@[^@]+\.[^@]+$')) {  
+                throw "T-That's not a real email! Try again!"  
+            }  
+        } until ($userEmail -match '^[^@]+@[^@]+\.[^@]+$')  
 
-    # Create/Update .gitconfig  
-    $gitAliases = @"
+        # Create .gitconfig  
+        $gitAliases = @"
 [user]
     name = $userName
     email = $userEmail
@@ -82,15 +87,31 @@ try {
     panic = "!git add . && git commit -m 'AAAAH FIX EVERYTHING' && git push origin main"
     oops = commit --amend -m `"Oops. Fixed, dummy.`"
 "@  
-
-    if (Test-Path $gitConfigPath) {  
-        Add-Content -Path $gitConfigPath -Value "`n$gitAliases"  
-        Write-Host "`nUpdated existing .gitconfig... Don't break it!`n" -ForegroundColor Yellow  
-    }  
-    else {  
         Set-Content -Path $gitConfigPath -Value $gitAliases  
         Write-Host "`nCreated .gitconfig... You owe me!`n" -ForegroundColor Green  
     }  
+
+    # Append aliases to existing .gitconfig  
+    $gitAliases = @"
+[alias]
+    st = status
+    cm = commit -m
+    co = checkout
+    br = branch
+    df = diff
+    lg = log --graph --abbrev-commit --decorate --format=format:'%%C(bold blue)%%h%%C(reset) - %%C(bold cyan)%%aD%%C(reset) %%C(bold green)(%%ar)%%C(reset)%%C(bold yellow)%%d%%C(reset)%%n''          %%C(white)%%s%%C(reset) %%C(dim white)- %%an%%C(reset)'
+    new = checkout -b
+    done = "!f() { git checkout main && git pull && git branch -d `$1; }; f"
+    supabase-status = !supabase status
+    supabase-seed = !supabase db reset --seed=seed.sql
+    dev = !npm run dev
+    build = !npm run build
+    lint = !npm run lint
+    panic = "!git add . && git commit -m 'AAAAH FIX EVERYTHING' && git push origin main"
+    oops = commit --amend -m `"Oops. Fixed, dummy.`"
+"@  
+    Add-Content -Path $gitConfigPath -Value "`n$gitAliases"  
+    Write-Host "`nUpdated .gitconfig with aliases... Don't break it!`n" -ForegroundColor Yellow  
 
     # Security Setup  
     try {  
