@@ -1,4 +1,4 @@
-# Essential Dev Scripts Setup Guide 🖥️🔥
+# Essential Tsundere Dev Scripts Setup Guide 🖥️🔥
 
 _A guide to installing productivity scripts for Next.js + Supabase on Windows._
 
