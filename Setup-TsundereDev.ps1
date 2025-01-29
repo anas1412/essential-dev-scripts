@@ -18,26 +18,35 @@ try {
         Write-Host "Added to PATH... Not like I cared!`n" -ForegroundColor Cyan  
     }  
 
-    # Download scripts  
-    $scripts = @{  
-        "git-acp.cmd" = "https://raw.githubusercontent.com/anas1412/essential-dev-scripts/main/bin/git-acp.cmd"  
-        "git-pr.ps1"  = "https://raw.githubusercontent.com/anas1412/essential-dev-scripts/main/bin/git-pr.ps1"  
-        "git-cleanup.cmd" = "https://raw.githubusercontent.com/anas1412/essential-dev-scripts/main/bin/git-cleanup.cmd"  
-        "git-wip.cmd" = "https://raw.githubusercontent.com/anas1412/essential-dev-scripts/main/bin/git-wip.cmd"  
-        "supabase-migrate.cmd" = "https://raw.githubusercontent.com/anas1412/essential-dev-scripts/main/bin/supabase-migrate.cmd"  
-        "switch-env.cmd" = "https://raw.githubusercontent.com/anas1412/essential-dev-scripts/main/bin/switch-env.cmd"  
-        "dev-seed.cmd" = "https://raw.githubusercontent.com/anas1412/essential-dev-scripts/main/bin/dev-seed.cmd"  
-        "check-rls.cmd" = "https://raw.githubusercontent.com/anas1412/essential-dev-scripts/main/bin/check-rls.cmd"  
+    # GitHub repository details  
+    $repoUrl = "https://api.github.com/repos/anas1412/essential-dev-scripts/contents/bin"  
+    $headers = @{  
+        "Accept" = "application/vnd.github.v3+json"  
     }  
 
-    foreach ($script in $scripts.GetEnumerator()) {  
-        $outputPath = Join-Path $binPath $script.Key  
+    # Fetch list of files in the bin folder  
+    Write-Host "Fetching scripts from GitHub...`n" -ForegroundColor Cyan  
+    $response = Invoke-RestMethod -Uri $repoUrl -Headers $headers -ErrorAction Stop  
+    $scripts = $response | Where-Object { $_.type -eq "file" } | ForEach-Object {  
+        @{  
+            Name = $_.name  
+            DownloadUrl = $_.download_url  
+        }  
+    }  
+
+    if (-not $scripts) {  
+        throw "H-Hey! No scripts found in the bin folder! Did you break the repository?`n"  
+    }  
+
+    # Download all scripts  
+    foreach ($script in $scripts) {  
+        $outputPath = Join-Path $binPath $script.Name  
         try {  
-            Invoke-WebRequest -Uri $script.Value -OutFile $outputPath -ErrorAction Stop  
-            Write-Host "Downloaded $($script.Key)... Happy now?`n" -ForegroundColor Green  
+            Invoke-WebRequest -Uri $script.DownloadUrl -OutFile $outputPath -ErrorAction Stop  
+            Write-Host "Downloaded $($script.Name)... Happy now?`n" -ForegroundColor Green  
         }  
         catch {  
-            throw "F-Failed to download $($script.Key)! Fix your internet!`n"  
+            throw "F-Failed to download $($script.Name)! Fix your internet!`n"  
         }  
     }  
 
@@ -123,16 +132,30 @@ try {
         throw "H-Hey! Couldn't set permissions! Run as Admin next time!`n"  
     }  
 
+    # Dynamically generate Available Commands section
+    $availableCommands = Get-ChildItem -Path $binPath | ForEach-Object {
+        $commandName = $_.Name
+        $commandDescription = switch -Wildcard ($commandName) {
+            "git-acp.cmd" { "Add+Commit+Push" }
+            "git-pr.ps1" { "Create GitHub PR" }
+            "git-cleanup.cmd" { "Clean up Git branches" }
+            "git-wip.cmd" { "Work in progress commit" }
+            "supabase-migrate.cmd" { "Run Supabase migrations" }
+            "switch-env.cmd" { "Switch environment" }
+            "dev-seed.cmd" { "Seed development database" }
+            "check-rls.cmd" { "Check release status" }
+            default { "No description available" }
+        }
+        "  • $commandName - $commandDescription"
+    }
+
     # Help Menu  
     Write-Host @"
 ╔══════════════════════════════════════════╗
 ║           TSUNDERE DEV HELP MENU         ║
 ╚══════════════════════════════════════════╝
 (¬_¬) Available Commands:
-  • git-acp `"message`" branch    Add+Commit+Push
-  • git-pr                  Create GitHub PR
-  • git panic               Emergency push
-  • git oops               Fix last commit
+$($availableCommands -join "`n")
 
 (´• ω •`) Notes:
   1. Always test in dev first!
