@@ -2,10 +2,10 @@
 
 A PowerShell script to set up your development environment with essential tools, Git scripts, and aliases. Designed to save you time and make your workflow smoother... not like I care about your productivity or anything! (¬_¬)
 
----
+
 
 ## Features ✨
----
+
 
 -   **Automated Script Installation**: Installs essential Git and development scripts from a GitHub repository.
 
@@ -20,7 +20,7 @@ A PowerShell script to set up your development environment with essential tools,
 
 
 ## What the Script Does 🛠️
----
+
 
 This script automates the setup of a development environment by:
 
@@ -37,7 +37,7 @@ This script automates the setup of a development environment by:
 
 
 ## Installation 🚀
----
+
 
 You can install and run the script directly using PowerShell's `Invoke-Expression` (`iex`) and `Invoke-RestMethod` (`irm`). Here's how:
 
@@ -60,7 +60,7 @@ iex (irm https://raw.githubusercontent.com/anas1412/essential-tsundere-dev-scrip
 4.  It will set up security permissions to allow script execution.
 
 ## Usage Examples 🖥️
----
+
 
 After running the script, you can use the following commands to boost your productivity:
 
@@ -89,7 +89,7 @@ After running the script, you can use the following commands to boost your produ
 
 
 ## Best Practices 💡
----
+
 
 1.  **Test in Dev First**: Always test your changes in a development environment before pushing to production.
 
@@ -99,10 +99,9 @@ After running the script, you can use the following commands to boost your produ
 
 4.  **Run as Admin**: If you encounter permission issues, run the script as an administrator.
 
-* * * * *
 
-Help Menu ℹ️
-------------
+## Help Menu ℹ️
+
 
 After installation, the script will display a help menu with all available commands and Git aliases. Here's a preview:
 
@@ -144,7 +143,7 @@ Made with ❤️🔥
 ```
 
 ## Troubleshooting 🛠️
----
+
 
 If something goes wrong, here are some common issues and solutions:
 
@@ -164,11 +163,10 @@ If something goes wrong, here are some common issues and solutions:
 
 
 ## Contributing 🤝
----
+
 Feel free to contribute to this project! If you have suggestions, improvements, or new scripts to add, open an issue or submit a pull request. Not like I care or anything... BAKA!
 
 ## License 📄
----
 
 This project is licensed under the MIT License.
 
