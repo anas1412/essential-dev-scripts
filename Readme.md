@@ -1,175 +1,176 @@
-# Essential Tsundere Dev Scripts Setup Guide 🖥️🔥
+# Tsundere Dev Environment Setup Script 🎀
 
-_A guide to installing productivity scripts for Next.js + Supabase on Windows._
+A PowerShell script to set up your development environment with essential tools, Git scripts, and aliases. Designed to save you time and make your workflow smoother... not like I care about your productivity or anything! (¬_¬)
 
 ---
 
-## **Installation (EASY WAY):**
-Run as Administrator
+## Features ✨
+---
+
+-   **Automated Script Installation**: Installs essential Git and development scripts from a GitHub repository.
+
+-   **Git Aliases**: Adds handy Git aliases like `git st`, `git cm`, and `git panic` for faster workflows.
+
+-   **Dynamic Setup**: Automatically detects and installs all scripts in the `bin` folder of the repository.
+
+-   **Security Setup**: Configures execution policies and unblocks scripts for safe usage.
+
+-   **Tsundere Personality**: Fun and engaging messages to keep you entertained while setting up your environment.
+
+
+
+## What the Script Does 🛠️
+---
+
+This script automates the setup of a development environment by:
+
+1.  Creating a `bin` directory in your user profile.
+
+2.  Adding the `bin` directory to your system's `PATH`.
+
+3.  Downloading essential Git and development scripts from a GitHub repository.
+
+4.  Configuring Git aliases for faster and more efficient workflows.
+
+5.  Setting up security permissions to allow script execution.
+
+
+
+## Installation 🚀
+---
+
+You can install and run the script directly using PowerShell's `Invoke-Expression` (`iex`) and `Invoke-RestMethod` (`irm`). Here's how:
+
+### One-Liner Installation
+
+Run the following command in PowerShell as Administrator:
 
 ```powershell
 iex (irm https://raw.githubusercontent.com/anas1412/essential-tsundere-dev-scripts/main/Setup-TsundereDev.ps1)
 ```
 
+### What Happens During Installation?
+
+1.  The script will create a `bin` directory in your user profile (if it doesn't already exist).
+
+2.  It will download essential scripts from the GitHub repository and save them to the `bin` directory.
+
+3.  It will configure Git aliases and update your `.gitconfig` file.
+
+4.  It will set up security permissions to allow script execution.
+
+## Usage Examples 🖥️
 ---
 
-## **Installation (HARD WAY)**
+After running the script, you can use the following commands to boost your productivity:
 
-### 1\. **Create a `bin` Folder**
+### Git Scripts
 
-```powershell
-# Run in PowerShell
-mkdir $HOME\bin
+-   **`git-acp "Commit message" branch`**: Add, commit, and push changes with a single command.
+
+-   **`git-pr`**: Create a GitHub pull request.
+
+-   **`git-cleanup`**: Clean up merged Git branches.
+
+-   **`git-wip`**: Create a work-in-progress commit.
+
+### Git Aliases
+
+-   **`git st`**: Check Git status.
+
+-   **`git cm "Commit message"`**: Commit with a message.
+
+-   **`git co branch`**: Checkout a branch.
+
+-   **`git panic`**: Emergency commit and push all changes.
+
+-   **`git oops`**: Fix the last commit.
+
+
+
+## Best Practices 💡
+---
+
+1.  **Test in Dev First**: Always test your changes in a development environment before pushing to production.
+
+2.  **Never Commit `.env` Files**: Keep sensitive information out of your repository.
+
+3.  **Use Git Aliases**: Take advantage of the Git aliases to speed up your workflow.
+
+4.  **Run as Admin**: If you encounter permission issues, run the script as an administrator.
+
+* * * * *
+
+Help Menu ℹ️
+------------
+
+After installation, the script will display a help menu with all available commands and Git aliases. Here's a preview:
+
+```
+╔══════════════════════════════════════════╗
+║           TSUNDERE DEV HELP MENU         ║
+╚══════════════════════════════════════════╝
+(¬_¬) Available Commands:
+  - git-acp.cmd - Add+Commit+Push
+  - git-pr.ps1 - Create GitHub PR
+  - git-cleanup.cmd - Clean up Git branches
+  - git-wip.cmd - Work in progress commit
+  - supabase-migrate.cmd - Run Supabase migrations
+  - switch-env.cmd - Switch environment
+  - dev-seed.cmd - Seed development database
+  - check-rls.cmd - Check release status
+
+('- ω -`) Git Aliases:
+  - git st - Check Git status
+  - git cm - Commit with a message
+  - git co - Checkout a branch
+  - git br - List branches
+  - git df - Show differences
+  - git lg - Pretty Git log
+  - git new - Create a new branch
+  - git done - Delete a branch after merging
+  - git panic - Emergency commit and push
+  - git oops - Fix the last commit
+
+('- ω -`) Notes:
+  1. Always test in dev first!
+  2. Never commit .env files!
+  3. Use 'git blame' when stuck
+
+(╯°□°）╯︵ ┻━┻  If you break production...
+  Run 'git panic' for emergency fixes!
+
+Made with ❤️🔥
 ```
 
+## Troubleshooting 🛠️
 ---
 
-### 2\. **Add `bin` to Your PATH**
+If something goes wrong, here are some common issues and solutions:
 
-1.  Press `Win + S` → Search **"Edit environment variables"**.
+1.  **Script Fails to Download**:
 
-2.  Under **User variables**, select `Path` → **Edit** → **New**.
+    -   Ensure your internet connection is stable.
 
-3.  Add:
-    ```powershell
-    %USERPROFILE%\bin
-    ```
+    -   Check if the GitHub repository is accessible.
 
+2.  **Permission Errors**:
+
+    -   Run the script as an administrator.
+
+3.  **Git Config Issues**:
+
+    -   If `.gitconfig` already exists, the script will skip user info setup. You can manually add aliases if needed.
+
+
+## Contributing 🤝
+---
+Feel free to contribute to this project! If you have suggestions, improvements, or new scripts to add, open an issue or submit a pull request. Not like I care or anything... BAKA!
+
+## License 📄
 ---
 
-### 3\. **Save Scripts**
-
-Copy these files to `%USERPROFILE%\bin`:
-
-#### **`git-acp.cmd`**
-
-```batch
-@echo off
-if "%1"=="" (
-echo H-Hey! Commit message missing, BAKA!
-exit /b 1
-)
-if "%2"=="" (
-echo Ugh! Branch name too?!
-exit /b 1
-)
-git add .
-git commit -m "%1"
-git push origin %2
-echo Pushed to %2. Don't break it!
-```
-
-#### **`switch-env.cmd`**
-
-```batch
-@echo off
-if "%1"=="prod" (
-copy /Y .env.production .env.local > nul
-echo Switched to PROD. Don't embarrass me. 🔥
-) else if "%1"=="dev" (
-copy /Y .env.development .env.local > nul
-echo Switched to DEV. Go play. 🎮
-) else (
-echo Usage: switch-env [dev|prod], BAKA!
-)
-```
+This project is licensed under the MIT License.
 
 ---
-
-### 4\. **Set Up `.gitconfig`**
-
-Save to `%USERPROFILE%\.gitconfig`:
-
-```ini
-# Save as C:\Users\YOUR_USERNAME\.gitconfig
-# (Replace YOUR_USERNAME and customize [user] section!)
-
-[user]
-  name = Your Name  # ⚠️ CHANGE THIS!
-  email = your.email@example.com  # ⚠️ CHANGE THIS!
-
-[alias]
-  # Basics
-  st = status
-  cm = commit -m
-  co = checkout
-  br = branch
-  df = diff
-  lg = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n''          %C(white)%s%C(reset) %C(dim white)- %an%C(reset)'
-
-  # Branching
-  new = checkout -b
-  done = "!f() { git checkout main && git pull && git branch -d $1; }; f"
-
-  # Supabase/Next.js
-  supabase-status = !supabase status
-  supabase-seed = !supabase db reset --seed=seed.sql
-  dev = !npm run dev
-  build = !npm run build
-  lint = !npm run lint
-
-  # Extras
-  panic = "!git add . && git commit -m 'AAAAH FIX EVERYTHING' && git push origin main"
-  oops = commit --amend -m "Oops. Fixed, dummy."
-
-[core]
-  excludesfile = C:\\Users\\YOUR_USERNAME\\gitignore_global  # Optional
-```
-
----
-
-## **Security Setup 🔒**
-
-### Allow PowerShell Scripts
-
-```powershell
-# Run as Admin
-Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
-```
-
-### Unblock Scripts
-
-```powershell
-Get-ChildItem -Path $HOME\bin\* | Unblock-File
-```
-
----
-
-## **Scripts Overview**
-
-| Script           | Command Example           | Purpose                                |
-| ---------------- | ------------------------- | -------------------------------------- |
-| `git-acp.cmd`    | `git-acp "fix: bug" main` | Add + Commit + Push                    |
-| `switch-env.cmd` | `switch-env dev`          | Swap Supabase dev/prod keys            |
-| `git-pr.ps1`     | `git-pr`                  | Open GitHub PR page for current branch |
-
----
-
-## **Usage**
-
-### For `.cmd` Scripts
-
-```bash
-git-acp "feat: magic" main
-switch-env prod
-```
-
-### For `.ps1` Scripts
-
-```powershell
-.\git-pr
-```
-
----
-
-## **Critical Notes 💢**
-
-1.  **Never commit `.env.local`** *(I'll haunt you!)*
-
-2.  Test scripts in `dev` first!
-
-3.  Use `git blame-mari` when things break (it's *always* my fault).
-
----
-
-_Accelerate anon._
+_Not like I care if you use it or anything... (¬_¬)_
